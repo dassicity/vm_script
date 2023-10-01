@@ -12,8 +12,6 @@ exports.post_instance = async (req, res, next) => {
         const package = req.body;
         console.log(package);
 
-
-
         const instance_params = {
             KeyName: keyPairName,
             SecurityGroupIds: [securityGroupId],
@@ -38,5 +36,9 @@ exports.post_instance = async (req, res, next) => {
     catch (err) {
         console.log(err);
     }
+
+}
+
+exports.get_status = async (req, res, next) => {
 
 }
