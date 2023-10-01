@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual VM spin up</title>
+</head>
+
+<body>
+
+    <h2>Spin up an EC2 instance with custom packages :</h2>
+
+    <label for="package1"><b>Package 1 - </b></label>
+    <input type="text" placeholder="Enter the package" name="package1" id="package1" />
+
+    <label for="package2"><b>Package 2 - </b></label>
+    <input type="text" placeholder="Enter the package" name="package2" id="package2" />
+
+    <label for="package3"><b>Package 3 - </b></label>
+    <input type="text" placeholder="Enter the package" name="package3" id="package3" />
+
+    <label for="package4"><b>Package 4 - </b></label>
+    <input type="text" placeholder="Enter the package" name="package4" id="package4" />
+
+    <button type="submit" id="package_submit_button">Create Instance</button>
+</body>
+<script>
+    const package1 = document.querySelector('#package1');
+    const package2 = document.querySelector('#package2');
+    const package3 = document.querySelector('#package3');
+    const package4 = document.querySelector('#package4');
+
+    const package_submit = document.querySelector("#package_submit_button");
+
+    const BASE_URL = "http://localhost:1339"
+
+    package_submit.addEventListener('click', async () => {
+        let packages = {
+            package1: package1.value,
+            package2: package2.value,
+            package3: package3.value,
+            package4: package4.value
+        }
+
+        let request = await fetch(`${BASE_URL}/vm/instance`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(packages)
+        });
+
+        const response = await request.json();
+
+        console.log(response.message);
+
+    })
+</script>
+
+</html>
