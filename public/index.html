@@ -9,6 +9,19 @@
 
 <body>
 
+    <h1>Sign In</h1>
+    <hr />
+
+    <label for="email"><b>Email</b></label>
+    <input type="text" placeholder="Enter your Email" name="email" required id="email" />
+
+    <label for="password"><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="password" required id="password" />
+
+    <button type="submit" id="sign-in-btn">Sign in</button>
+    <button type="submit" id="sign-up-btn">Sign up</button>
+    <hr />
+
     <h2>Spin up an EC2 instance with custom packages :</h2>
 
     <label for="package1"><b>Package 1 - </b></label>
@@ -43,7 +56,7 @@
             package4: package4.value
         }
 
-        let request = await fetch(`${BASE_URL}/vm/instance`, {
+        let request = await fetch(`${BASE_URL}/create_instance`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -56,6 +69,43 @@
         console.log(response.message);
 
     })
+
+    let signInSubmitButton = document.querySelector("#sign-in-btn");
+    let signUpSubmitButton = document.querySelector("#sign-up-btn");
+    let email = document.getElementById("email");
+    let password = document.getElementById("password");
+
+    signInSubmitButton.addEventListener("click", async () => {
+        let user = {
+            email: email.value,
+            password: password.value,
+        };
+
+        let request = await fetch(`${BASE_URL}/auth/signin`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(user),
+        });
+
+    });
+
+    signUpSubmitButton.addEventListener("click", async () => {
+        let user = {
+            email: email.value,
+            password: password.value,
+        };
+
+        let request = await fetch(`${BASE_URL}/auth/signup`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(user),
+        });
+
+    });
 </script>
 
 </html>

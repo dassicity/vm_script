@@ -1,11 +1,12 @@
 const express = require('express');
 
 const vm_controller = require('../controllers/vm_controller');
+const isAuth = require('../middleware/is_auth');
 
 const router = express.Router();
 
-router.post('/create_instance', vm_controller.post_instance);
+router.post('/create_instance', isAuth, vm_controller.post_instance);
 
-router.post('/status:vmid', vm_controller.get_status);
+router.post('/status:vmid', isAuth, vm_controller.get_status);
 
 module.exports = router;

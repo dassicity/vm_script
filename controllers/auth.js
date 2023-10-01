@@ -8,6 +8,8 @@ exports.signUp = (req, res, next) => {
     const email = req.body.email;
     const password = req.body.password;
 
+    console.log("Inside Sign Up");
+
     bcrypt.hash(password, 12)
         .then(hashedPassword => {
             const user = new User({
@@ -20,10 +22,7 @@ exports.signUp = (req, res, next) => {
             return user.save();
         })
         .then(user => {
-            res.status(201).json({
-                message: 'A new user has been created!',
-                userId: user._id
-            });
+            res.status(201).redirect('/');
         })
         .catch(error => {
             if (!error.statusCode) {
@@ -37,6 +36,8 @@ exports.signIn = (req, res, next) => {
     const email = req.body.email;
     const password = req.body.password;
     let loadedUser;
+
+    console.log("Inside Sign In");
 
     User.findOne({ email: email })
         .then(user => {
@@ -54,16 +55,30 @@ exports.signIn = (req, res, next) => {
                 error.statusCode = 401;
                 throw error;
             }
-            const token = jwt.sign({
-                email: loadedUser.email,
-                userId: loadedUser._id.toString()
-            }, process.env.WEB_TOKEN, {
-                expiresIn: '1h'
-            })
-            res.status(201).json({
-                token: token,
-                userId: loadedUser._id.toString()
+            // const token = jwt.sign({
+            //     email: loadedUser.email,
+            //     userId: loadedUser._id.toString()
+            // }, process.env.WEB_TOKEN, {
+            //     expiresIn: '1h'
+            // })
 
+            // req.user = loadedUser;
+            // req.token = token;
+            // console.log(req.user);
+
+            // res.status(201).json({
+            //     token: token,
+            //     userId: loadedUser._id.toString()
+
+            // });
+
+            console.log(req.session);
+
+            req.session.loggedIn = true;
+            req.session.user = user;
+
+            return req.session.save(err => {
+                res.redirect('/');
             });
 
         })
