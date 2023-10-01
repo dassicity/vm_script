@@ -26,22 +26,22 @@ const store = new MongoDBStore(
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, "public")));
-app.use(session({ secret: 'dassic', saveUninitialized: false, resave: false, store: store }));
+app.use(session({ secret: process.env.SESSION_SECRET_KEY, saveUninitialized: false, resave: false, store: store }));
 
 app.use((req, res, next) => {
-    // if (!req.session.user) {
-    //     console.log("Inside app.js -> No user");
-    //     return next();
-    // }
+    if (!req.session.user) {
+        console.log("Inside app.js -> No user");
+        return next();
+    }
 
-    console.log("Hello");
-    User.findById('651945650994242b6ede7067')
+    // console.log("Hello");
+    User.findById(req.session.user._id)
         .then(user => {
             if (!user) {
                 next();
             }
             req.user = user;
-            // console.log("Inside app.js -> findById");
+            console.log("Inside app.js -> findById");
             next();
         })
         .catch(err => {

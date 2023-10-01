@@ -75,7 +75,7 @@ exports.signIn = (req, res, next) => {
             console.log(req.session);
 
             req.session.loggedIn = true;
-            req.session.user = user;
+            req.session.user = loadedUser;
 
             return req.session.save(err => {
                 res.redirect('/');
@@ -88,4 +88,18 @@ exports.signIn = (req, res, next) => {
             }
             next(error);
         })
+}
+
+exports.post_signout = async (req, res, next) => {
+    try {
+        req.session.destroy((err) => {
+            if (err) {
+                console.error('Session destroy error:', err);
+            }
+            res.status(200).redirect('/');
+        });
+    }
+    catch (err) {
+        console.log(err);
+    }
 }

@@ -20,6 +20,7 @@
 
     <button type="submit" id="sign-in-btn">Sign in</button>
     <button type="submit" id="sign-up-btn">Sign up</button>
+    <button type="submit" id="sign-out-btn">Sign out</button>
     <hr />
 
     <h2>Spin up an EC2 instance with custom packages :</h2>
@@ -89,6 +90,8 @@
 
     let signInSubmitButton = document.querySelector("#sign-in-btn");
     let signUpSubmitButton = document.querySelector("#sign-up-btn");
+    let signOutSubmitButton = document.querySelector("#sign-out-btn");
+
     let email = document.getElementById("email");
     let password = document.getElementById("password");
 
@@ -115,6 +118,22 @@
         };
 
         let request = await fetch(`${BASE_URL}/auth/signup`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(user),
+        });
+
+    });
+
+    signOutSubmitButton.addEventListener("click", async () => {
+        let user = {
+            email: email.value,
+            password: password.value,
+        };
+
+        let request = await fetch(`${BASE_URL}/auth/signout`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

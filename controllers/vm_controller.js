@@ -13,7 +13,7 @@ exports.post_instance = async (req, res, next) => {
         const packages = req.body;
 
         const machine = new Machines({
-            user_id: req.user._id,
+            user_id: req.session.user._id,
             instance_id: null
         });
 
