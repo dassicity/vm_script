@@ -2,10 +2,16 @@ const { RunInstancesCommand, EC2Client } = require('@aws-sdk/client-ec2');
 
 const ec2Client = new EC2Client();
 
+async function sshconnection() {
+
+}
+
 exports.post_instance = async (req, res, next) => {
     try {
         const package = req.body;
         console.log(package);
+
+
 
         const instance_params = {
             KeyName: keyPairName,
