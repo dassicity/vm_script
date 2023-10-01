@@ -6,6 +6,8 @@ const session = require('express-session')
 require('dotenv').config();
 const MongoDBStore = require('connect-mongodb-session')(session);
 
+const User = require('./models/users');
+
 
 const vm_router = require('./routers/vm_router');
 const auth_router = require('./routers/auth');
@@ -27,13 +29,13 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(session({ secret: 'dassic', saveUninitialized: false, resave: false, store: store }));
 
 app.use((req, res, next) => {
-    if (!req.session.user) {
-        console.log("Inside app.js -> No user");
-        return next();
-    }
+    // if (!req.session.user) {
+    //     console.log("Inside app.js -> No user");
+    //     return next();
+    // }
 
     console.log("Hello");
-    User.findById(req.session.user._id)
+    User.findById('651945650994242b6ede7067')
         .then(user => {
             if (!user) {
                 next();

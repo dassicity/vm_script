@@ -37,6 +37,20 @@
     <input type="text" placeholder="Enter the package" name="package4" id="package4" />
 
     <button type="submit" id="package_submit_button">Create Instance</button>
+
+    <h3 id="status_create_instance"></h3>
+    <h3 id="machine_id"></h3>
+
+    <h2>Get to know the status</h2>
+
+    <label for="vm_id"><b>VM ID - </b></label>
+    <input type="text" placeholder="Enter the ID" name="vm_id" id="vm_id" />
+
+    <button type="submit" id="get_status">Get Status</button>
+
+    <h3 id="status_get_status"></h3>
+    <h3 id="instance_id"></h3>
+
 </body>
 <script>
     const package1 = document.querySelector('#package1');
@@ -45,6 +59,8 @@
     const package4 = document.querySelector('#package4');
 
     const package_submit = document.querySelector("#package_submit_button");
+    const status_create = document.querySelector('#status_create_instance');
+    const machine_id = document.querySelector('#machine_id');
 
     const BASE_URL = "http://localhost:1339"
 
@@ -66,7 +82,8 @@
 
         const response = await request.json();
 
-        console.log(response.message);
+        status_create.innerHTML = response.message;
+        machine_id.innerHTML = response.machine_id;
 
     })
 
@@ -106,6 +123,33 @@
         });
 
     });
+
+    const vm_id = document.querySelector('#vm_id');
+
+    const get_status = document.querySelector("#get_status");
+    const status_get_status = document.querySelector('#status_get_status');
+    const instance_id = document.querySelector('#instance_id');
+
+
+    get_status.addEventListener('click', async () => {
+
+        let request = await fetch(`${BASE_URL}/status?vm_id=${vm_id.value}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        });
+
+        const response = await request.json();
+
+        status_get_status.innerHTML = response.message;
+
+        if (response.instance_id) {
+            instance_id.innerHTML = response.instance_id;
+        }
+    })
+
+
 </script>
 
 </html>

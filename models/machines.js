@@ -8,7 +8,6 @@ const vmSchema = new mongoose.Schema({
     },
     instance_id: {
         type: String,
-        required: true,
     },
 });
 
