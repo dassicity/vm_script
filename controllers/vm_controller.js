@@ -60,6 +60,13 @@ exports.get_status = async (req, res, next) => {
 
         Machines.findById(vm_id)
             .then(machine => {
+                console.log(machine.user_id);
+                console.log(req.session.user._id);
+                if (!machine.user_id.equals(req.session.user._id)) {
+                    return res.json({
+                        message: "You are not authorized to access this!"
+                    })
+                }
                 if (!machine.instance_id) {
                     return res.json({
                         message: "Please wait more. Instance ID not created"

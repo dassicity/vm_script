@@ -72,10 +72,10 @@ exports.signIn = (req, res, next) => {
 
             // });
 
-            console.log(req.session);
 
             req.session.loggedIn = true;
             req.session.user = loadedUser;
+            console.log(req.session);
 
             return req.session.save(err => {
                 res.redirect('/');
